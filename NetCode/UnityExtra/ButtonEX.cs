@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -14,6 +15,7 @@ namespace LT_Code.UnityExtra
     /// <summary>
     /// 绘梦璃的增强按钮
     /// </summary>
+    [AddComponentMenu("UI/ButtonEX", 31)]
     public class ButtonEX : Selectable, IPointerClickHandler, ISubmitHandler, IPointerMoveHandler
     {
         /// <summary>
@@ -309,5 +311,53 @@ namespace LT_Code.UnityExtra
         /// </summary>
         [Serializable]
         public class ButtonLongPressEvent : UnityEvent { }
+
+        [MenuItem("GameObject/UI/ButtonEX")]
+        public static void AddNewButtonEX()
+        {
+
+            var newButtonEx = new GameObject("ButtonEX",
+                typeof(RectTransform),
+                typeof(Image),
+                typeof(ButtonEX)
+            );
+            if (GameObject.Find("Canvas") == null)
+            {
+                var canvas = new GameObject("Canvas",
+                    typeof(Canvas),
+                    typeof(RectTransform),
+                    typeof(CanvasScaler),
+                    typeof(GraphicRaycaster)
+                );  //创建一个GameObject  加入Canvas的组件
+            }
+            else
+            {
+                newButtonEx.transform.SetParent(Selection.activeTransform, true);
+            }
+            if (GameObject.Find("EventSystem"))
+            {
+                var eventSystem = new GameObject("EventSystem",
+                    typeof(EventSystem),
+                    typeof(StandaloneInputModule)
+                );
+            }
+            var buttonRect = newButtonEx.GetComponent<RectTransform>();
+            buttonRect.sizeDelta = new Vector2(160, 30);
+            buttonRect.localPosition = Vector3.zero;
+            var text = new GameObject("Text",
+                typeof(RectTransform),
+                typeof(Text)
+            );
+            var textRect = text.GetComponent<RectTransform>();
+            textRect.sizeDelta = new Vector2(1600, 300);
+            textRect.localScale = new Vector3(0.1f, 0.1f, 1);
+            var theText = text.GetComponent<Text>();
+            theText.text = "ButtonEX";
+            theText.color = new Color(0, 0, 0);
+            theText.alignment = TextAnchor.MiddleCenter;
+            theText.fontSize = 200;
+            text.transform.SetParent(newButtonEx.transform);
+            text.transform.localPosition = Vector3.zero;
+        }
     }
 }
