@@ -268,7 +268,7 @@ namespace LT_Code.UnityExtra
         /// 鼠标双击事件
         /// </summary>
         [Serializable]
-        public class ButtonMouseDownEvent : UnityEngine.Events.UnityEvent { }
+        public class ButtonMouseDownEvent : UnityEvent { }
 
         /// <summary>
         /// 鼠标弹起事件
@@ -312,6 +312,7 @@ namespace LT_Code.UnityExtra
         [Serializable]
         public class ButtonLongPressEvent : UnityEvent { }
 
+#if UNITY_EDITOR
         [MenuItem("GameObject/UI/ButtonEX")]
         public static void AddNewButtonEX()
         {
@@ -334,13 +335,13 @@ namespace LT_Code.UnityExtra
             {
                 newButtonEx.transform.SetParent(Selection.activeTransform, true);
             }
-            if (GameObject.Find("EventSystem"))
-            {
-                var eventSystem = new GameObject("EventSystem",
-                    typeof(EventSystem),
-                    typeof(StandaloneInputModule)
-                );
-            }
+            //if (GameObject.Find("EventSystem"))
+            //{
+            //    var eventSystem = new GameObject("EventSystem",
+            //        typeof(EventSystem),
+            //        typeof(StandaloneInputModule)
+            //    );
+            //}
             var buttonRect = newButtonEx.GetComponent<RectTransform>();
             buttonRect.sizeDelta = new Vector2(160, 30);
             buttonRect.localPosition = Vector3.zero;
@@ -359,5 +360,6 @@ namespace LT_Code.UnityExtra
             text.transform.SetParent(newButtonEx.transform);
             text.transform.localPosition = Vector3.zero;
         }
+#endif
     }
 }
